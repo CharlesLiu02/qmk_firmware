@@ -18,7 +18,6 @@
 enum layers {
     _QWERTY = 0,
     _NUM,
-    _SYM,
     _FUNCTION,
     _NAV,
     _ADJUST,
@@ -29,7 +28,6 @@ enum layers {
 #define QWERTY   DF(_QWERTY)
 
 #define NUM      MO(_NUM)
-#define SYM      MO(_SYM)
 #define NAV      MO(_NAV)
 #define FKEYS    MO(_FUNCTION)
 #define ADJUST   MO(_ADJUST)
@@ -71,9 +69,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
     [_QWERTY] = LAYOUT(
      KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                        KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_CAPS,
-     KC_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                        KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,KC_QUOT,
-     KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LCTL, FKEYS,     BASE  , KC_RCTL, KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
-                                KC_TRNS , KC_LGUI, KC_LALT, KC_SPC , KC_CYCLE_LAYERS   ,     KC_ENT    , KC_BSPC , KC_RALT, KC_RGUI, KC_TRNS
+     KC_ESC  , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                        KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN, KC_QUOT,
+     KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LCTL, FKEYS,             BASE  , KC_RCTL,   KC_N ,  KC_M , KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
+                                KC_TRNS, KC_LGUI, KC_LALT, KC_SPC , KC_CYCLE_LAYERS,   KC_ENT, KC_BSPC, KC_RALT, KC_RGUI, KC_TRNS
     ),
 
 /*
@@ -91,32 +89,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NUM] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                     _______, KC_7   , KC_8   , KC_9   , _______, _______,
-      _______, _______, _______, _______, _______, _______,                                     _______, KC_4   , KC_5   , KC_6   , _______, _______,
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_0   , KC_1   , KC_2   , KC_3   , _______, _______,
+      _______, KC_TILD, _______, KC_LCBR, KC_RCBR, KC_PIPE,                                     _______, KC_7   , KC_8   , KC_9   , KC_UNDS, KC_PLUS,
+      _______, KC_GRV , _______, KC_LPRN, KC_RPRN, KC_BSLS,                                     _______, KC_4   , KC_5   , KC_6   , KC_MINS, KC_EQL ,
+      _______, _______, _______, KC_LBRC, KC_RBRC, _______, _______, _______, _______, _______, KC_0   , KC_1   , KC_2   , KC_3   , _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
-/*
- * Sym Layer: Symbols
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |    `   |  1   |  2   |  3   |  4   |  5   |                              |   6  |  7   |  8   |  9   |  0   |   =    |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |    ~   |  !   |  @   |  #   |  $   |  %   |                              |   ^  |  &   |  *   |  (   |  )   |   +    |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |    |   |   \  |  :   |  ;   |  -   |  [   |  {   |      |  |      |   }  |   ]  |  _   |  ,   |  .   |  /   |   ?    |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
- */
-    [_SYM] = LAYOUT(
-      KC_GRV ,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                                       KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,   KC_0 , KC_EQL ,
-     KC_TILD , KC_EXLM,  KC_AT , KC_HASH,  KC_DLR, KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PLUS,
-     KC_PIPE , KC_BSLS, KC_COLN, KC_SCLN, KC_MINS, KC_LBRC, KC_LCBR, _______, _______, KC_RCBR, KC_RBRC, KC_UNDS, KC_COMM,  KC_DOT, KC_SLSH, KC_QUES,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    ),
 
 /*
  * Function Layer: Function keys
@@ -224,7 +202,7 @@ bool oled_task_user(void) {
         // clang-format on
 
         oled_write_P(qmk_logo, false);
-        oled_write_P(PSTR("Kyria rev1.0\n\n"), false);
+        oled_write_P(PSTR("Kyria rev3\n\n"), false);
 
         // Host Keyboard Layer Status
         oled_write_P(PSTR("Layer: "), false);
@@ -237,9 +215,6 @@ bool oled_task_user(void) {
                 break;
             case _NAV:
                 oled_write_P(PSTR("Nav\n"), false);
-                break;
-            case _SYM:
-                oled_write_P(PSTR("Sym\n"), false);
                 break;
             case _FUNCTION:
                 oled_write_P(PSTR("Function\n"), false);
