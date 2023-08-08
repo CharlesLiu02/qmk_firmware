@@ -23,7 +23,6 @@ enum layers {
     _ADJUST,
 };
 
-
 // Aliases for readability
 #define QWERTY   DF(_QWERTY)
 
@@ -71,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                                 KC_Y,   KC_U ,  KC_I  ,   KC_O ,   KC_P , KC_CAPS,
      KC_ESC  , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                                 KC_H,   KC_J ,  KC_K  ,   KC_L , KC_SCLN, KC_QUOT,
      KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LCTL, FKEYS,             KC_RALT, KC_RCTL,   KC_N,   KC_M , KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
-                                KC_TRNS, KC_LGUI, KC_LALT, KC_SPC , KC_CYCLE_LAYERS,   KC_ENT , BASE   , KC_BSPC, KC_RGUI, KC_TRNS
+                                KC_MUTE, KC_LGUI, KC_LALT, KC_SPC , KC_CYCLE_LAYERS,   KC_ENT , BASE   , KC_BSPC, KC_RGUI, KC_MUTE
     ),
 
 /*
@@ -253,19 +252,11 @@ bool oled_task_user(void) {
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
 
-    if (index == 0) {
-        // Volume control
+    if (index == 1) {
         if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
             tap_code(KC_VOLD);
-        }
-    } else if (index == 1) {
-        // Page up/Page down
-        if (clockwise) {
-            tap_code(KC_PGDN);
         } else {
-            tap_code(KC_PGUP);
+            tap_code(KC_VOLU);
         }
     }
     return false;
