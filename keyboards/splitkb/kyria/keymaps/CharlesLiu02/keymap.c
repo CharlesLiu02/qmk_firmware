@@ -18,28 +18,17 @@
 enum layers {
     _QWERTY = 0,
     _NUM,
-    _FUNCTION,
-    _NAV,
+    _FUNCTION_NAV,
     _ADJUST,
 };
 
 // Aliases for readability
-#define QWERTY   DF(_QWERTY)
+#define QWERTY    DF(_QWERTY)
 
-#define NUM      MO(_NUM)
-#define NAV      MO(_NAV)
-#define FKEYS    MO(_FUNCTION)
-#define ADJUST   MO(_ADJUST)
-#define BASE     TO(_QWERTY)
-
-#define CTL_ESC  MT(MOD_LCTL, KC_ESC)
-#define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
-#define CTL_MINS MT(MOD_RCTL, KC_MINUS)
-#define ALT_ENT  MT(MOD_LALT, KC_ENT)
-
-// Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
-// The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
-// produces the key `tap` when tapped (i.e. pressed and released).
+#define NUM       MO(_NUM)
+#define FKEYS_NAV MO(_FUNCTION_NAV)
+#define ADJUST    MO(_ADJUST)
+#define BASE      TO(_QWERTY)
 
 enum keycodes {
   KC_CYCLE_LAYERS = QK_USER,
@@ -69,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
      KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                                 KC_Y,   KC_U ,  KC_I  ,   KC_O ,   KC_P , KC_CAPS,
      KC_ESC  , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                                 KC_H,   KC_J ,  KC_K  ,   KC_L , KC_SCLN, KC_QUOT,
-     KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LCTL, FKEYS,             KC_RALT, KC_RCTL,   KC_N,   KC_M , KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
+     KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LCTL, FKEYS_NAV,             KC_RALT, KC_RCTL,   KC_N,   KC_M , KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
                                 KC_MUTE, KC_LGUI, KC_LALT, KC_SPC , KC_CYCLE_LAYERS,   KC_ENT , BASE   , KC_BSPC, KC_RGUI, KC_MUTE
     ),
 
@@ -90,13 +79,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NUM] = LAYOUT(
       _______, KC_TILD, XXXXXXX, KC_LCBR, KC_RCBR, KC_PIPE,                                     XXXXXXX, KC_7   , KC_8   , KC_9   , KC_UNDS, KC_PLUS,
       _______, KC_GRV , XXXXXXX, KC_LPRN, KC_RPRN, KC_BSLS,                                     XXXXXXX, KC_4   , KC_5   , KC_6   , KC_MINS, KC_EQL ,
-      _______, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, _______, _______, _______, _______, KC_0   , KC_1   , KC_2   , KC_3   , _______, _______,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+      _______, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, _______, _______, _______, _______, XXXXXXX, KC_1   , KC_2   , KC_3   , _______, _______,
+                                 _______, _______, _______, _______, _______, _______, _______, _______, KC_0, _______
     ),
 
 
 /*
- * Function Layer: Function keys
+ * Function Layer: Function and Nav keys
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |        |  F9  | F10  | F11  | F12  |      |                              |      |      |      |      |      |        |
@@ -109,9 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-    [_FUNCTION] = LAYOUT(
-      _______,  KC_F9 ,  KC_F10,  KC_F11,  KC_F12, _______,                                     _______, _______, _______, _______, _______, _______,
-      _______,  KC_F5 ,  KC_F6 ,  KC_F7 ,  KC_F8 , _______,                                     _______, KC_RSFT, KC_RCTL, KC_LALT, KC_RGUI, _______,
+    [_FUNCTION_NAV] = LAYOUT(
+      _______,  KC_F9 ,  KC_F10,  KC_F11,  KC_F12, _______,                                     _______, _______, KC_UP  , _______, _______, _______,
+      _______,  KC_F5 ,  KC_F6 ,  KC_F7 ,  KC_F8 , _______,                                     _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
       _______,  KC_F1 ,  KC_F2 ,  KC_F3 ,  KC_F4 , _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -130,12 +119,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-    [_NAV] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU, KC_DEL,
-      _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, _______,                                     KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, KC_INS,
-      _______, _______, _______, _______, _______, _______, _______, KC_SCRL, _______, _______,KC_PAUSE, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_PSCR,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    ),
+    // [_NAV] = LAYOUT(
+    //   _______, _______, _______, _______, _______, _______,                                     KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_VOLU, KC_DEL,
+    //   _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, _______,                                     KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD, KC_INS,
+    //   _______, _______, _______, _______, _______, _______, _______, KC_SCRL, _______, _______,KC_PAUSE, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_PSCR,
+    //                              _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    // ),
 
 /*
  * Adjust Layer: Default layer settings, RGB
@@ -212,10 +201,7 @@ bool oled_task_user(void) {
             case _NUM:
                 oled_write_P(PSTR("Num\n"), false);
                 break;
-            case _NAV:
-                oled_write_P(PSTR("Nav\n"), false);
-                break;
-            case _FUNCTION:
+            case _FUNCTION_NAV:
                 oled_write_P(PSTR("Function\n"), false);
                 break;
             case _ADJUST:
